@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 const path = require("path");
 const app = express();
@@ -6,6 +7,7 @@ const { shuffleArray } = require("./utils");
 
 // include and initialize the rollbar library with your access token
 var Rollbar = require("rollbar");
+const process = require("process");
 var rollbar = new Rollbar({
   accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
   captureUncaught: true,
@@ -79,7 +81,7 @@ app.post("/api/duel", (req, res) => {
       res.status(200).send("You lost!");
     } else {
       playerRecord.wins++;
-      rollbar.info("Someone has one a duel");
+      rollbar.info("Someone has won a duel");
       res.status(200).send("You won!");
     }
   } catch (error) {
